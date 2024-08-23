@@ -27,17 +27,50 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
+        // Disable CSRF for simplicity in this example
+        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+
+        // Allow unauthenticated access to Swagger UI
+        httpSecurity.authorizeHttpRequests(authorizeRequests ->
+                authorizeRequests
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // Permit access to Swagger UI and API docs
+                        .anyRequest().authenticated() // Require authentication for all other requests
+        );
+
+        // Enable form-based login
+        httpSecurity.formLogin(Customizer.withDefaults());
+
+        // Enable HTTP Basic authentication
+        httpSecurity.httpBasic(Customizer.withDefaults());
+
+        // Configure session management
+        httpSecurity.sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        );
+
+        return httpSecurity.build();
+    }
+
+    /*
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         httpSecurity.authorizeHttpRequests(request->request.anyRequest().authenticated());
         httpSecurity.formLogin(Customizer.withDefaults());
         httpSecurity.httpBasic(Customizer.withDefaults());
         httpSecurity.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
+        // Allow unauthenticated access to Swagger UI
+        httpSecurity.authorizeHttpRequests(authorizeRequests ->
+                authorizeRequests
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .anyRequest().authenticated()
+        );
 
         return httpSecurity.build();
     }
 
-    /*@Bean
+    @Bean
     public UserDetailsService userDetailsService(){
 
         UserDetails user = User
