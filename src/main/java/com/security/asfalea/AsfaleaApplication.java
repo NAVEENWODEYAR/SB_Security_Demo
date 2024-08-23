@@ -29,23 +29,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 						url = "http://www.apache.org/licenses/LICENSE-2.0.html"
 				)
 		),
-//		servers = {
-//				@Server(
-//						url = "http://localhost:7070",
-//						description = "Testing server",
-//						variables = {
-//								@ServerVariable(
-//										name = "port",
-//										description = "Port number",
-//										defaultValue = "7070"
-//								)
-//						}
-//				),
-//				@Server(
-//						url = "http://production-server.com",
-//						description = "Production server"
-//				)
-//		},
+		servers = {
+				@Server(
+						url = "http://localhost:8071",
+						description = "Testing server",
+						variables = {
+								@ServerVariable(
+										name = "port",
+										description = "Port number",
+										defaultValue = "7070"
+								)
+						}
+				),
+				@Server(
+						url = "http://production-server.com",
+						description = "Production server"
+				)
+		},
 		externalDocs = @ExternalDocumentation(
 				description = "Find more info here",
 				url = "http://example.com/docs"

@@ -31,7 +31,7 @@ public class StudentController {
             summary = "Get_Students",
             description = "Displays the available student list,",
             parameters = {
-                    @Parameter(name = "message", description = "The message to be returned", required = true, example = "Hello")
+                    @Parameter(name = "message", description = "The message to be returned", required = false, example = "Hello")
             }
     )
     @ApiResponses(value = {
@@ -49,7 +49,7 @@ public class StudentController {
             summary = "Add_Student",
             description = "Creates/Adds new student,",
             parameters = {
-                    @Parameter(name = "message", description = "The message to be returned", required = true, example = "Hello")
+                    @Parameter(name = "message", description = "The message to be returned", required = false, example = "Hello")
             }
     )
     @ApiResponses(value = {
@@ -64,6 +64,17 @@ public class StudentController {
          return request;
     }
 
+    @Operation(
+            summary = "Get_CSRF_TOKEN",
+            description = "Displays the CSRF token,",
+            parameters = {
+                    @Parameter(name = "message", description = "The message to be returned", required = false, example = "Hello")
+            }
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "SUCCESS"),
+            @ApiResponse(responseCode = "500", description = "Internal Sever Error")
+    })
     @GetMapping("/csrf-token")
     public CsrfToken getCsrfToken(HttpServletRequest httpServletRequest){
         return (CsrfToken) httpServletRequest.getAttribute("_csrf");
