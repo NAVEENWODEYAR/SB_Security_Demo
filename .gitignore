@@ -36,3 +36,4 @@ build/
 *.class 
 *.log
 *.idea 
+*.yml
