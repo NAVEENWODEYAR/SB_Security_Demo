@@ -1,8 +1,10 @@
-package com.security.asfalea.config;/*
+package com.security.asfalea.config;
+/*
  * @author LENOVO
  * @date 23-08-2024
  */
 
+import com.security.asfalea.filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +20,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -25,6 +28,9 @@ public class SecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -51,47 +57,9 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
+        httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
-
-    /*
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
-        httpSecurity.authorizeHttpRequests(request->request.anyRequest().authenticated());
-        httpSecurity.formLogin(Customizer.withDefaults());
-        httpSecurity.httpBasic(Customizer.withDefaults());
-        httpSecurity.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        // Allow unauthenticated access to Swagger UI
-        httpSecurity.authorizeHttpRequests(authorizeRequests ->
-                authorizeRequests
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .anyRequest().authenticated()
-        );
-
-        return httpSecurity.build();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService(){
-
-        UserDetails user = User
-                .withDefaultPasswordEncoder()
-                .username("uat")
-                .password("uat")
-                .roles("USER")
-                .build();
-
-        UserDetails user1 = User
-                .withDefaultPasswordEncoder()
-                .username("sit")
-                .password("sit")
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(user1,user);
-    }*/
 
     @Bean
     public AuthenticationProvider authenticationProvider(){

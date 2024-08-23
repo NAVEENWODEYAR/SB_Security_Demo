@@ -31,11 +31,11 @@ public class UserService {
         return userRepo.save(request);
     }
 
-    public String verify(Users request){
+    public String generateToken(Users request){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUserName(),request.getUserPassword()));
 
         if (authentication.isAuthenticated()){
-            return jwtService.generateToken();
+            return jwtService.generateToken(request.getUserName());
         }else {
             return "FAILURE";
         }

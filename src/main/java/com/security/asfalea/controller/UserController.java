@@ -42,21 +42,21 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Login",
-            description = "EndPoint to login to the application,",
+            summary = "Generate_Token",
+            description = "EndPoint to generate the Json Web Token,",
             parameters = {
-                    @Parameter(name = "message", description = "The message to be returned", required = false, example = "Hello")
+//                    @Parameter(name = "message", description = "The message to be returned", required = false, example = "Hello")
             }
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "SUCCESS"),
             @ApiResponse(responseCode = "500", description = "Internal Sever Error")
     })
-    @PostMapping("/login")
+    @PostMapping("/generateToken")
     @ResponseStatus(HttpStatus.CREATED)
     public String login(@RequestBody Users request){
         log.error("User Login,");
-        return userService.verify(request);
+        return userService.generateToken(request);
 
     }
 }
