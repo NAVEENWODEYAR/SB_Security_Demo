@@ -9,16 +9,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Slf4j
@@ -47,7 +45,7 @@ public class JwtService {
                 .add(claims)
                 .subject(userName)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() +60 * 60 * 30))
+                .expiration(new Date(System.currentTimeMillis() +60 * 60 * 60))
                 .and()
                 .signWith(getKey())
                 .compact();
@@ -72,6 +70,11 @@ public class JwtService {
     }
 
     private Claims extractAllClaim(String token) {
+        Claims payload = Jwts.parser()
+                .verifyWith(getKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
         return Jwts.parser()
                 .verifyWith(getKey())
                 .build()
@@ -81,7 +84,10 @@ public class JwtService {
 
     public boolean validateToken(String token, UserDetails userDetails) {
         final String userName = extractUserName(token);
-        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        String name = userDetails.getUsername();
+        String pd = userDetails.getPassword();
+        return (userName.equals("Gowri") && !isTokenExpired(token));
+//        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     private boolean isTokenExpired(String token) {

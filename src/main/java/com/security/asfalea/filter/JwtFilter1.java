@@ -22,7 +22,7 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class JwtFilter extends OncePerRequestFilter {
+public class JwtFilter1 extends OncePerRequestFilter {
 
     @Autowired
     private JwtService jwtService;
@@ -55,17 +55,19 @@ public class JwtFilter extends OncePerRequestFilter {
                     throw new UnauthorizedException("Invalid JWT token.");
                 }
             }
+        } catch (TokenExpiredException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Token expired.");
+            log.error("JWT token expired: {}", e.getMessage());
+            return; // Stop further processing
+        } catch (UnauthorizedException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Unauthorized access.");
+            log.error("Unauthorized access: {}", e.getMessage());
+            return; // Stop further processing
         } catch (Exception e) {
-            if (e instanceof TokenExpiredException) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Token expired.");
-            } else if (e instanceof UnauthorizedException) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Unauthorized access.");
-            } else {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.getWriter().write("Access denied.");
-            }
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.getWriter().write("Access denied.");
             log.error("Security error: {}", e.getMessage());
             return; // Stop further processing
         }

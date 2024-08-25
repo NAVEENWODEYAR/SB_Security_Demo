@@ -30,7 +30,7 @@ public class StudentController {
 
     @Operation(
             summary = "Get_Students",
-            description = "Displays the available student list,",
+            description = "Displays the available Student list,",
             parameters = {
                     @Parameter(name = "message", description = "The message to be returned", required = false, example = "Hello")
             }
