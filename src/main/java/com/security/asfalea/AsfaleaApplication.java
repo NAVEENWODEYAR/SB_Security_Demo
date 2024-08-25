@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
-import io.swagger.v3.oas.annotations.security.SecuritySchemes;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.servers.ServerVariable;
 import org.springframework.boot.SpringApplication;
@@ -29,33 +28,34 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 						url = "http://www.apache.org/licenses/LICENSE-2.0.html"
 				)
 		),
-//		servers = {
-//				@Server(
-//						url = "http://localhost:7070",
-//						description = "Testing server",
-//						variables = {
-//								@ServerVariable(
-//										name = "port",
-//										description = "Port number",
-//										defaultValue = "7070"
-//								)
-//						}
-//				),
-//				@Server(
-//						url = "http://production-server.com",
-//						description = "Production server"
-//				)
-//		},
+		servers = {
+				@Server(
+						url = "http://localhost:8071",
+						description = "Testing server",
+						variables = {
+								@ServerVariable(
+										name = "port",
+										description = "Port number",
+										defaultValue = "7070"
+								)
+						}
+				),
+				@Server(
+						url = "http://production-server.com",
+						description = "Production server"
+				)
+		},
 		externalDocs = @ExternalDocumentation(
 				description = "Find more info here",
 				url = "http://example.com/docs"
 		),
-		security = @SecurityRequirement(name = "basic")
+		security = @SecurityRequirement(name = "bearerAuth")
 )
 @SecurityScheme(
-		name = "basic",
+		name = "bearerAuth",
 		type = SecuritySchemeType.HTTP,
-		scheme = "basic"
+		scheme = "bearer",
+		bearerFormat = "JWT"
 )
 @SpringBootApplication
 public class AsfaleaApplication {
