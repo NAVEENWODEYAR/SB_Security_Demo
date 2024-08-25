@@ -32,7 +32,7 @@ public class SecurityConfig {
     @Autowired
     private JwtFilter jwtFilter;
 
-    @Bean
+    /*@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         // Disable CSRF for simplicity in this example
@@ -42,7 +42,7 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("register","login").permitAll()
+                        .requestMatchers("register","generateToken").permitAll()
                         .anyRequest().authenticated()
         );
 
@@ -59,6 +59,22 @@ public class SecurityConfig {
 
         httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
+    }*/
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        return http.csrf(AbstractHttpConfigurer::disable).
+                authorizeHttpRequests(request -> request
+                        .requestMatchers("/api/v1/user/register", "/api/v1/user/generateToken").permitAll()
+                        .requestMatchers("/swagger-ui/**,/v3/api-docs/**").permitAll()
+                        .anyRequest().authenticated()).
+                httpBasic(Customizer.withDefaults()).
+                sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+
+
     }
 
     @Bean

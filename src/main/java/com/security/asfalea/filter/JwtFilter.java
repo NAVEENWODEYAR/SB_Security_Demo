@@ -1,7 +1,4 @@
-package com.security.asfalea.filter;/*
- * @author LENOVO
- * @date 24-08-2024
- */
+package com.security.asfalea.filter;
 
 import com.security.asfalea.jwt.JwtService;
 import com.security.asfalea.service.MyUserDetailService;
@@ -10,8 +7,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,43 +15,44 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Slf4j
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtService jwtService;
+    private final JwtService jwtService;
+    private final MyUserDetailService userDetailService;
 
-    @Autowired
-    ApplicationContext context;
+    public JwtFilter(JwtService jwtService, MyUserDetailService userDetailService) {
+        this.jwtService = jwtService;
+        this.userDetailService = userDetailService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader("Authorization");
-        String token = null;
-        String userName = null;
+        if (header != null && header.startsWith("Bearer ")) {
+            String token = header.substring(7);
+            String userName = jwtService.extractUserName(token);
 
-        if(header !=null && header.startsWith("Bearer")){
-            token = header.substring(7);
-            userName = jwtService.extractUserName(token);
-        }
-
-        if(header !=null && SecurityContextHolder.getContext().getAuthentication() == null){
-            log.info(userName);
-            UserDetails userDetails = context.getBean(MyUserDetailService.class).loadUserByUsername(userName);
-            log.info("User details: " + userDetails.getUsername());
-            if (jwtService.validateToken(token,userDetails)){
-
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
-
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                try {
+                    UserDetails userDetails = userDetailService.loadUserByUsername(userName);
+                    if (jwtService.validateToken(token, userDetails)) {
+                        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                                userDetails, null, userDetails.getAuthorities()
+                        );
+                        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authToken);
+                        log.info("Authenticated user: {}", userDetails.getUsername());
+                    }
+                } catch (Exception e) {
+                    log.error("Authentication failed for user: {}", userName, e);
+                }
             }
         }
 
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 }
