@@ -1,4 +1,5 @@
-package com.security.asfalea.entity;/*
+package com.security.asfalea.entity;
+/*
  * @author Naveen K Wodeyar
  * @date 23-08-2024
  */
@@ -33,7 +34,7 @@ public class UserPrinciple implements UserDetails {
 
     @Override
     public String getUsername() {
-        return users.getUserPassword();
+        return users.getUserName();
     }
 
     @Override

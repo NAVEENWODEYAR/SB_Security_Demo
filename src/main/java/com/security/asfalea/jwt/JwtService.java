@@ -70,11 +70,6 @@ public class JwtService {
     }
 
     private Claims extractAllClaim(String token) {
-        Claims payload = Jwts.parser()
-                .verifyWith(getKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
         return Jwts.parser()
                 .verifyWith(getKey())
                 .build()
@@ -85,9 +80,7 @@ public class JwtService {
     public boolean validateToken(String token, UserDetails userDetails) {
         final String userName = extractUserName(token);
         String name = userDetails.getUsername();
-        String pd = userDetails.getPassword();
-        return (userName.equals("Gowri") && !isTokenExpired(token));
-//        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     private boolean isTokenExpired(String token) {

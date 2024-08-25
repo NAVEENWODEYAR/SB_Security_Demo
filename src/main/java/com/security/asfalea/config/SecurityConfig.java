@@ -1,11 +1,10 @@
 package com.security.asfalea.config;
 /*
- * @author LENOVO
+ * @author Naveen K Wodeyar
  * @date 23-08-2024
  */
 
 import com.security.asfalea.filter.JwtFilter;
-import com.security.asfalea.filter.JwtFilter1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +30,7 @@ public class SecurityConfig {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private JwtFilter1 jwtFilter;
+    private JwtFilter jwtFilter;
 
     /*@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
