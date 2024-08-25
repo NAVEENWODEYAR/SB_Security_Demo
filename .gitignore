@@ -37,3 +37,4 @@ build/
 *.log
 *.idea 
 *.yml
+*.log

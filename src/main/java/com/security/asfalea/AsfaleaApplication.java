@@ -2,9 +2,12 @@ package com.security.asfalea;
 
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.servers.ServerVariable;
 import org.springframework.boot.SpringApplication;
@@ -27,7 +30,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 		),
 		servers = {
 				@Server(
-						url = "http://localhost:7070",
+						url = "http://localhost:8071",
 						description = "Testing server",
 						variables = {
 								@ServerVariable(
@@ -45,7 +48,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 		externalDocs = @ExternalDocumentation(
 				description = "Find more info here",
 				url = "http://example.com/docs"
-		))
+		),
+		security = @SecurityRequirement(name = "bearerAuth")
+)
+@SecurityScheme(
+		name = "bearerAuth",
+		type = SecuritySchemeType.HTTP,
+		scheme = "bearer",
+		bearerFormat = "JWT"
+)
 @SpringBootApplication
 public class AsfaleaApplication {
 
