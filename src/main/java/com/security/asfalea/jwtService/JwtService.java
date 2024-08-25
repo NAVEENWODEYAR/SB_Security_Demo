@@ -1,4 +1,4 @@
-package com.security.asfalea.jwt;
+package com.security.asfalea.jwtService;
 /*
  * @author Naveen K Wodeyar
  * @date 24-08-2024
@@ -9,14 +9,16 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.Base64;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 @Slf4j
@@ -45,9 +47,9 @@ public class JwtService {
                 .add(claims)
                 .subject(userName)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() +60 * 60 * 60))
+                .expiration(new Date(System.currentTimeMillis() +3600000)) // Set the expiration to 1 hour (3600000 milliseconds).
                 .and()
-                .signWith(getKey())
+                .signWith(getKey())// Sign the token with your key and algorithm.
                 .compact();
 
     }

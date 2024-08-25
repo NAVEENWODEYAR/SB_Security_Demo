@@ -2,7 +2,7 @@ package com.security.asfalea.filter;
 
 import com.security.asfalea.exception.TokenExpiredException;
 import com.security.asfalea.exception.UnauthorizedException;
-import com.security.asfalea.jwt.JwtService;
+import com.security.asfalea.jwtService.JwtService;
 import com.security.asfalea.service.MyUserDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -5,7 +5,7 @@ package com.security.asfalea.service;
  */
 
 import com.security.asfalea.entity.Users;
-import com.security.asfalea.jwt.JwtService;
+import com.security.asfalea.jwtService.JwtService;
 import com.security.asfalea.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
