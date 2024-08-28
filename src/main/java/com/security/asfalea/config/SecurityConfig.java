@@ -32,34 +32,6 @@ public class SecurityConfig {
     @Autowired
     private JwtFilter jwtFilter;
 
-    /*@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
-        // Disable CSRF for simplicity in this example
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
-
-        // Allow unauthenticated access to Swagger UI
-        httpSecurity.authorizeHttpRequests(authorizeRequests ->
-                authorizeRequests
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("register","generateToken").permitAll()
-                        .anyRequest().authenticated()
-        );
-
-        // Enable form-based login
-        httpSecurity.formLogin(Customizer.withDefaults());
-
-        // Enable HTTP Basic authentication
-        httpSecurity.httpBasic(Customizer.withDefaults());
-
-        // Configure session management
-        httpSecurity.sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        );
-
-        httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-        return httpSecurity.build();
-    }*/
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -68,9 +40,9 @@ public class SecurityConfig {
                 authorizeHttpRequests(request -> request
                         .requestMatchers("/api/v1/user/register", "/api/v1/user/generateToken").permitAll()
                         .requestMatchers("/swagger-ui/**,/v3/api-docs/**").permitAll()
-                        .anyRequest().authenticated()).
-                httpBasic(Customizer.withDefaults()).
-                sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
 
