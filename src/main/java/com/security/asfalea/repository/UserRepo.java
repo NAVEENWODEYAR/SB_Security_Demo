@@ -1,4 +1,5 @@
-package com.security.asfalea.repository;/*
+package com.security.asfalea.repository;
+/*
  * @author Naveen K Wodeyar
  * @date 23-08-2024
  */

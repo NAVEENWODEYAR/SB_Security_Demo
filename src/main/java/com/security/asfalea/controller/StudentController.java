@@ -80,4 +80,22 @@ public class StudentController {
     public CsrfToken getCsrfToken(HttpServletRequest httpServletRequest){
         return (CsrfToken) httpServletRequest.getAttribute("_csrf");
     }
+
+    @Operation(
+            summary = "Get_Students_From_Database",
+            description = "Displays the available Student list from the database table,",
+            parameters = {
+                    @Parameter(name = "Table_Name", description = "Details from the table", required = false, example = "Tuples")
+            }
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "SUCCESS"),
+            @ApiResponse(responseCode = "500", description = "Internal Sever Error")
+    })
+    @GetMapping("/students")
+    @ResponseStatus(HttpStatus.FOUND)
+    public List<Student> studentList(){
+        log.info("Student list found,");
+        return studentList;
+    }
 }
