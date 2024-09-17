@@ -10,8 +10,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.servers.ServerVariable;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
 @OpenAPIDefinition(
 		info = @Info(
 				title = "ASFALEA[ασφάλεια,Greek]~~[SECURITY]",
@@ -65,4 +68,13 @@ public class AsfaleaApplication {
 		System.out.println("\nSPRING~^~SECURITY\n");
 	}
 
+	@Bean
+	public CommandLineRunner printJavaVersion() {
+		return args -> {
+			String javaVersion = System.getProperty("java.version");
+			System.out.println("\n#############################\n");
+			System.out.println("JAVA VERSION: " + javaVersion);
+			System.out.println("\n#############################\n");
+		};
+	}
 }

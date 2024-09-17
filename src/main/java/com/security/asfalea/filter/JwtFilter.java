@@ -59,17 +59,17 @@ public class JwtFilter extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Token expired.");
             log.error("JWT token expired: {}", e.getMessage());
-            return; // Stop further processing
+            return;
         } catch (UnauthorizedException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Unauthorized access.");
             log.error("Unauthorized access: {}", e.getMessage());
-            return; // Stop further processing
+            return;
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().write("Access denied.");
             log.error("Security error: {}", e.getMessage());
-            return; // Stop further processing
+            return;
         }
 
         filterChain.doFilter(request, response);
