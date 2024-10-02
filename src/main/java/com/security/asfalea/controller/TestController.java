@@ -31,7 +31,7 @@ public class TestController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "SUCCESS"),
-            @ApiResponse(responseCode = "500", description = "Internal Sever Error")
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/greet/{name}")
     public ResponseEntity<?> greet(@PathParam("name") String name){
@@ -51,7 +51,7 @@ public class TestController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "SUCCESS"),
-            @ApiResponse(responseCode = "500", description = "Internal Sever Error")
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping
     public ResponseEntity<?> test(HttpServletRequest httpServletRequest){

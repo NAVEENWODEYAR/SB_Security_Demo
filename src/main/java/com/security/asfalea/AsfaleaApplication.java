@@ -72,8 +72,12 @@ public class AsfaleaApplication {
 	public CommandLineRunner printJavaVersion() {
 		return args -> {
 			String javaVersion = System.getProperty("java.version");
+			String javaHome = System.getProperty("java.home");
+			String osName = System.getProperty("os.name");
 			System.out.println("\n#############################\n");
 			System.out.println("JAVA VERSION: " + javaVersion);
+			System.out.println("JAVA HOME: " + javaHome);
+			System.out.println("OS NAME: " + osName);
 			System.out.println("\n#############################\n");
 		};
 	}
