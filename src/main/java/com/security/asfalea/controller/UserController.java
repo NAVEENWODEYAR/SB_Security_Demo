@@ -38,7 +38,7 @@ public class UserController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public Users register(@RequestBody Users request){
-        log.info("User Registration,");
+        log.info("User Registration request received,");
         return userService.registerUser(request);
     }
 
