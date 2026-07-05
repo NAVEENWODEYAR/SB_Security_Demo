@@ -64,7 +64,7 @@ public class StudentsController {
     @PostMapping("/add")
     public ResponseEntity<Students> addStudents(@RequestBody StudentsDao request) {
         Students students = studentsService.addStudent(request);
-        log.error("Inserted new student,");
+        log.error("Inserted new student record");
         return new ResponseEntity<>(students, HttpStatus.CREATED);
     }
 
@@ -72,7 +72,7 @@ public class StudentsController {
     @GetMapping("/getStudent/{studentId}")
     public ResponseEntity<Students> getStudent(@RequestParam Long studentId) {
         Students student = studentsService.getStudent(studentId);
-        log.error("Student found {}",student);
+        log.error("Student record found {}",student);
         return new ResponseEntity<>(student, HttpStatus.FOUND);
     }
 }
