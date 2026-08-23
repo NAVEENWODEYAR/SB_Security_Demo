@@ -62,7 +62,7 @@ public class AsfaleaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AsfaleaApplication.class, args);
-		System.out.println("\nSPRING~^~SECURITY\n");
+		System.out.println("\nSPRING~^~SECURITY\n Demo Application");
 	}
 
 }
