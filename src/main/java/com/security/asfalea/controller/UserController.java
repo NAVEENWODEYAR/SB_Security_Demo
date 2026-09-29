@@ -56,7 +56,7 @@ public class UserController {
     @PostMapping("/generateToken")
     @ResponseStatus(HttpStatus.CREATED)
     public String login(@RequestBody Users request){
-        log.error("Token generation started,");
+        log.error("Auth Token generation started,");
         return userService.generateToken(request);
     }
 }
